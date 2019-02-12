@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {addReminder, deleteReminder} from '../actions'
-import moment from 'moment'
+import {addReminder, deleteReminder, clearReminder} from '../actions'
+import RenderReminders from './Reminders';
 
 export class App extends Component {
   constructor(props) {
@@ -11,42 +11,13 @@ export class App extends Component {
       dueDate: ''
     }
   }
+
   addReminder() {
     this.props.addReminder(this.state.text, this.state.dueDate)
   }
 
-  deleteReminder(id){
-    console.log('id:', id);
-    console.log('props:', this.props)
-    this.props.deleteReminder(id)
-  }
-
-  renderReminders(){
-    const { reminders } = this.props;
-
-    return (
-      <ul className="list-group col-sm-4 col-md-6">
-      {
-        reminders.map(reminder => {
-          return (
-            <li key={reminder.id} className="list-group-item to-do-item">
-              <div>{reminder.text}</div>
-              <div><em>{moment(new Date(reminder.dueDate)).fromNow()}</em></div>
-              <div 
-                className="list-item delete-button"
-                onClick={() => this.deleteReminder(reminder.id)}
-              >
-                &#x2715;
-              </div>
-            </li>
-          )
-        })
-      }
-      </ul>
-    )
-
-  }
   render() {
+    const { reminders } = this.props;
     return (
       <div className="App">
         <div className="col-md-6 container">
@@ -75,7 +46,9 @@ export class App extends Component {
                 </button>
             </div>
         </div>
-        {this.renderReminders()}
+        <RenderReminders reminders= {reminders}  />
+        <div onClick={() => this.props.clearReminder()} className="btn btn-danger"> Clear reminders
+        </div>
       </div>
     )
   }
@@ -88,4 +61,4 @@ function mapStateToProps(state) {
   }
   
 }
-export default connect(mapStateToProps, {addReminder, deleteReminder})(App);
+export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminder})(App);
