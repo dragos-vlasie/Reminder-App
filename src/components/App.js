@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {addReminder, deleteReminder, clearReminder} from '../actions'
+import {addReminder, clearReminder} from '../actions'
 import RenderReminders from './Reminders';
 
 export class App extends Component {
@@ -58,6 +58,6 @@ function mapStateToProps(state) {
   return {
     reminders: state
   }
-  
 }
-export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminder})(App);
+
+export default connect(mapStateToProps, {addReminder, clearReminder})(App);
