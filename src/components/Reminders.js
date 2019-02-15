@@ -1,7 +1,9 @@
 import React from 'react'
 import moment from 'moment'
+import { connect } from 'react-redux'
+import { deleteReminder } from '../actions'
 
-  const deleteReminder = (id, props) => {
+  const deleteThis = (id, props) => {
     console.log('id:', id);
     console.log('props:', props)
     props.deleteReminder(id)
@@ -19,7 +21,7 @@ const RenderReminders = (props) =>{
               <div><em>{moment(new Date(reminder.dueDate)).fromNow()}</em></div>
               <div 
                 className="list-item delete-button"
-                onClick={() => deleteReminder(reminder.id)}
+                onClick={() => deleteThis(reminder.id, props)}
               >
                 &#x2715;
               </div>
@@ -31,4 +33,4 @@ const RenderReminders = (props) =>{
     )
   }
 
-export default RenderReminders
+  export default connect(null, {deleteReminder})(RenderReminders)
